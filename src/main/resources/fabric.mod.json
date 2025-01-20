@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "moon_armory",
+	"version": "${version}",
+	"name": "Moon Armory",
+	"description": "This is a weaponry mod built by Bee. I also go by the usernames BeeKudzu or ModulaKudzu",
+	"authors": [
+		"Bee"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/moon_armory/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.bee.moon_armory.MoonArmory"
+		],
+		"client": [
+			"dev.bee.moon_armory.MoonArmoryClient"
+		],
+		"fabric-datagen": [
+			"dev.bee.moon_armory.MoonArmoryDataGenerator"
+		]
+	},
+	"mixins": [
+		"moon_armory.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.10",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

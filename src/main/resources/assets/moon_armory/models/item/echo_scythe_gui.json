@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "moon_armory:item/echo_scythe_gui"
+  }
+}

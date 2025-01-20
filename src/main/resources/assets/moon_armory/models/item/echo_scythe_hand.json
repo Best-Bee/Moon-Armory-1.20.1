@@ -1,0 +1,6 @@
+{
+  "parent": "moon_armory:item/echo_scythe_weapon_hand",
+  "textures": {
+    "layer0": "moon_armory:item/echo_scythe"
+  }
+}
