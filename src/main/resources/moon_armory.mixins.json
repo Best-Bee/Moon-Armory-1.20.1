@@ -3,7 +3,9 @@
 	"package": "dev.bee.moon_armory.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"ExampleMixin",
+		"MoonArmoryWeaponMixin",
+		"EchoScytheWeaponAnimationMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

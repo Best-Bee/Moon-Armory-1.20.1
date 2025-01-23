@@ -3,12 +3,17 @@ package dev.bee.moon_armory.item.custom;
 import com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.world.World;
 
 import java.util.UUID;
 
@@ -18,6 +23,8 @@ public class EchoScytheItem extends SwordItem implements MoonArmoryWeaponItem {
     public EchoScytheItem(ToolMaterial material, int damage, float speed, Item.Settings settings) {
         super(material, damage, speed, settings);
     }
+
+    // public
 
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot) {
         // Create a new Multimap based on the superclass's attribute modifiers for the given equipment slot
@@ -35,7 +42,7 @@ public class EchoScytheItem extends SwordItem implements MoonArmoryWeaponItem {
 
     static {
         MELEE_RANGE_MODIFIER = new EntityAttributeModifier(
-                UUID.fromString("911af262-067d-4da2-854c-20f03cc2dd8b"),
+                UUID.fromString("fdae6866-e42c-433c-a54a-3a84111f973c"),
                 "Weapon modifier",
                 (double)0.5F,
                 EntityAttributeModifier.Operation.ADDITION);

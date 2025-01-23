@@ -37,6 +37,7 @@ public class GuiItemRenderer implements BuiltinItemRendererRegistry.DynamicItemR
         matrices.pop();
         matrices.push();
         if (inventoryModes.contains(mode)) {
+            matrices.translate(0.0F, 10.5F, 0.0F);
             this.itemRenderer.renderItem(stack, mode, false, matrices, vertexConsumers, light, overlay, this.inventoryItemModel);
         } else {
             boolean leftHanded;

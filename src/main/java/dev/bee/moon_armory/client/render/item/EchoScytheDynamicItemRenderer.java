@@ -1,33 +1,27 @@
 package dev.bee.moon_armory.client.render.item;
 
-//import dev.bee.moon_armory.index.ArsenalCosmetics;
-//import dev.bee.moon_armory.item.ScytheItem;
-//import dev.bee.moon_armory.item.ScytheItem.Skin;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.bee.moon_armory.MoonArmory;
+import dev.bee.moon_armory.client.render.entity.model.EchoScythePosing;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.util.Pair;
+import net.minecraft.util.math.RotationAxis;
 import org.jetbrains.annotations.NotNull;
 
 public class EchoScytheDynamicItemRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {
     public static final List<ModelIdentifier> MODELS_TO_REGISTER = new ArrayList<>();
     public static final Pair<ModelIdentifier, ModelIdentifier> DEFAULT_MODEL_IDENTIFIER = registerVariantModelPair("");
-//    public static final Pair<ModelIdentifier, ModelIdentifier> CLOWN_MODEL_IDENTIFIER;
-//    public static final Pair<ModelIdentifier, ModelIdentifier> CARRION_MODEL_IDENTIFIER;
-//    public static final Pair<ModelIdentifier, ModelIdentifier> GILDED_MODEL_IDENTIFIER;
-//    public static final Pair<ModelIdentifier, ModelIdentifier> ROZE_MODEL_IDENTIFIER;
-//    public static final Pair<ModelIdentifier, ModelIdentifier> FOLLY_MODEL_IDENTIFIER;
-//    public static final Pair<ModelIdentifier, ModelIdentifier> SCISSORS_MODEL_IDENTIFIER;
 
     public EchoScytheDynamicItemRenderer() {}
 
@@ -43,30 +37,35 @@ public class EchoScytheDynamicItemRenderer implements BuiltinItemRendererRegistr
 
     private static @NotNull Pair<ModelIdentifier, ModelIdentifier> getModelIdentifierPair(ItemStack stack) {
         Pair<ModelIdentifier, ModelIdentifier> modelIdentifierPair = DEFAULT_MODEL_IDENTIFIER;
-//        ScytheItem.Skin skin = Skin.fromString(ArsenalCosmetics.getSkin(stack));
-//        if (skin != null) {
-//            switch (skin) {
-//                case CLOWN -> modelIdentifierPair = CLOWN_MODEL_IDENTIFIER;
-//                case CARRION -> modelIdentifierPair = CARRION_MODEL_IDENTIFIER;
-//                case GILDED -> modelIdentifierPair = GILDED_MODEL_IDENTIFIER;
-//                case ROZE -> modelIdentifierPair = ROZE_MODEL_IDENTIFIER;
-//                case FOLLY -> modelIdentifierPair = FOLLY_MODEL_IDENTIFIER;
-//                case SCISSORS -> modelIdentifierPair = SCISSORS_MODEL_IDENTIFIER;
-//            }
-//        }
         return modelIdentifierPair;
     }
 
     @Override
     public void render(ItemStack stack, ModelTransformationMode mode, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        LivingEntity player = client.player;
+
         boolean inHand = mode.isFirstPerson() || mode == ModelTransformationMode.THIRD_PERSON_RIGHT_HAND
                 || mode == ModelTransformationMode.THIRD_PERSON_LEFT_HAND
                 || mode == ModelTransformationMode.FIXED
                 || mode == ModelTransformationMode.GROUND;
         boolean inInventory = mode == ModelTransformationMode.GUI;
+
         matrices.push();
-        matrices.scale(1.0F, 1.0F, 1.0F);
-        //matrices.translate(0.5f, 1.0f, 0.5f);
+
+        if (inHand && player != null) {
+            matrices.scale(1.0F, 1.5F, 1.5F);
+            matrices.translate(-0.05F, -0.65F, 0.0F);
+            matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(10.0F));
+            float swingProgress = player.getHandSwingProgress(client.getTickDelta());
+            if (swingProgress > 0.0F) {
+                // Swing animation logic
+//                float weaponMovement = swingProgress;
+//                float swingAngle = -40.0F * swingProgress; // Rotate based on swing progress
+//                matrices.translate(0.0F, weaponMovement, 0.0F);
+//                matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(swingAngle)); // Swing the weapon
+            }
+        }
 
         Pair<ModelIdentifier, ModelIdentifier> modelIdentifierPair = getModelIdentifierPair(stack);
         BakedModel model = MinecraftClient.getInstance().getBakedModelManager().getModel(
@@ -75,6 +74,7 @@ public class EchoScytheDynamicItemRenderer implements BuiltinItemRendererRegistr
 
         if (inInventory) {
             RenderSystem.enableBlend();
+            matrices.translate(0.5F, 0.5F, 0.0F);
         }
 
         MinecraftClient.getInstance().getItemRenderer().renderItem(
@@ -90,14 +90,5 @@ public class EchoScytheDynamicItemRenderer implements BuiltinItemRendererRegistr
         }
 
         matrices.pop();
-    }
-
-    static {
-//        CLOWN_MODEL_IDENTIFIER = registerVariantModelPair(Skin.CLOWN.getName());
-//        CARRION_MODEL_IDENTIFIER = registerVariantModelPair(Skin.CARRION.getName());
-//        GILDED_MODEL_IDENTIFIER = registerVariantModelPair(Skin.GILDED.getName());
-//        ROZE_MODEL_IDENTIFIER = registerVariantModelPair(Skin.ROZE.getName());
-//        FOLLY_MODEL_IDENTIFIER = registerVariantModelPair(Skin.FOLLY.getName());
-//        SCISSORS_MODEL_IDENTIFIER = registerVariantModelPair(Skin.SCISSORS.getName());
     }
 }
