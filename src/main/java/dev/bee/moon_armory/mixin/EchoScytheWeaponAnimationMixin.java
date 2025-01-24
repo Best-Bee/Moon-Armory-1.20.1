@@ -1,21 +1,28 @@
 package dev.bee.moon_armory.mixin;
 
+import dev.bee.moon_armory.client.render.entity.model.EchoScythePosing;
 import dev.bee.moon_armory.item.MoonArmoryItems;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.AnimalModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.ModelWithArms;
 import net.minecraft.client.render.entity.model.ModelWithHead;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.tick.Tick;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.sql.Time;
 
 @Mixin(BipedEntityModel.class)
 public abstract class EchoScytheWeaponAnimationMixin<T extends LivingEntity> extends AnimalModel<T> implements ModelWithArms, ModelWithHead {
@@ -88,9 +95,10 @@ public abstract class EchoScytheWeaponAnimationMixin<T extends LivingEntity> ext
 //                float h = MathHelper.sin(this.handSwingProgress * (float) Math.PI) * -(this.head.pitch - 0.7F) * 0.75F;
 //
 //                //
-                primaryArm.pitch += 3.0F * this.handSwingProgress;
 
+                primaryArm.pitch += 4.0F * this.handSwingProgress;
                 secondaryArm.pitch += 3.0F * this.handSwingProgress;
+
 //
 //                //
 //                primaryArm.yaw = primaryArm.yaw + this.body.yaw * 2.0F;

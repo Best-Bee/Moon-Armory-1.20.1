@@ -10,6 +10,7 @@ import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -43,6 +44,17 @@ public abstract class MoonArmoryWeaponMixin<T extends LivingEntity> {
         // Check if player is holding an Echo Scythe
         ItemStack mainHandStack = entity.getStackInHand(Hand.MAIN_HAND);
         if (mainHandStack.isOf(MoonArmoryItems.ECHO_SCYTHE)) {
+//            float k = 1.0F;
+//            if (entity.getRoll() > 4) {
+//                k = (float)entity.getVelocity().lengthSquared();
+//                k /= 0.2F;
+//                k *= k * k;
+//            }
+//
+//            if (k < 1.0F) {
+//                k = 1.0F;
+//            }
+
             EchoScythePosing.hold(this.rightArm, this.leftArm, this.head, this.body, true);
             ci.cancel();
         }

@@ -55,7 +55,7 @@ public class EchoScytheDynamicItemRenderer implements BuiltinItemRendererRegistr
 
         if (inHand && player != null) {
             matrices.scale(1.0F, 1.5F, 1.5F);
-            matrices.translate(-0.05F, -0.65F, 0.0F);
+            matrices.translate(-0.05F, -0.65F, 0.06F);
             matrices.multiply(RotationAxis.NEGATIVE_X.rotationDegrees(10.0F));
             float swingProgress = player.getHandSwingProgress(client.getTickDelta());
             if (swingProgress > 0.0F) {
