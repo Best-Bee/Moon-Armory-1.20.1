@@ -2,12 +2,9 @@ package dev.bee.moon_armory.client.render.entity.model;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.realms.dto.PlayerActivities;
-import net.minecraft.client.realms.dto.PlayerActivity;
-import net.minecraft.client.realms.dto.PlayerInfo;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.CrossbowItem;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 
 public class EchoScythePosing {
@@ -27,39 +24,32 @@ public class EchoScythePosing {
         j = MinecraftClient.getInstance().player.age;
         j = MathHelper.cos(j * 0.015F) - 1.0F;
 
-        ModelPart modelPart = rightArmed ? holdingArm : otherArm;
-        ModelPart modelPart2 = rightArmed ? otherArm : holdingArm;
+        ModelPart modelPart = holdingArm;
+        ModelPart modelPart2 = otherArm;
 
         //Turn body slightly to allow better arm positioning
-        body.yaw = 10.0F * conversion;
+        body.yaw = (rightArmed ? (10.0F * conversion) : (-10.0F * conversion));
 
-        modelPart.pivotZ = 1.0F;
+        modelPart.pivotZ = (MinecraftClient.getInstance().player.isSwimming() ? 0.0F : (rightArmed ? 1.0F : -2.5F));
         modelPart.pivotX = -4.5F;
-        modelPart2.pivotZ = -2.5F;
+        modelPart2.pivotZ = (MinecraftClient.getInstance().player.isSwimming() ? 0.0F : (rightArmed ? -2.5F : 1.0F));
         modelPart2.pivotX = 4.5F;
 
-        float holdingP = 110.0F * conversion; //85
-        float holdingY = 10.0F * conversion; //-70
+        float holdingP = (110.0F * conversion) + (j * k);
+        float holdingY = (10.0F * conversion) + (j * k); //-70
         float holdingR = 35.0F * conversion; //65
 
-        holdingP += (j * k);
-        holdingY += (j * k);
-        //holdingR += (j * k);
+        float otherP = (-90.0F * conversion) - (j * k);
+        float otherY = (MinecraftClient.getInstance().player.isSneaking() ? 70.0F : 60.0F) * conversion;
+        float otherR = ((MinecraftClient.getInstance().player.isSneaking() ? -35.0F : -45.0F) * conversion) - (2.0F * j * k);
 
-        float otherP = -90.0F * conversion;
-        float otherY = 60.0F * conversion;
-        float otherR = -45.0F * conversion;
+        modelPart.pitch = (rightArmed ? -holdingP : otherP); /*+ (0.5F * head.yaw)*/
+        modelPart.yaw =  (rightArmed ? -holdingY : -otherY);
+        modelPart.roll = (rightArmed ? -holdingR : -otherR);
 
-        otherP -= (j * k);
-        otherR -= (2.0F * j * k);
-
-        modelPart.pitch = (rightArmed ? -holdingP : holdingP) /*+ (0.5F * head.yaw)*/;
-        modelPart.yaw = (rightArmed ? -holdingY : holdingY);
-        modelPart.roll = (rightArmed ? -holdingR : holdingR);
-
-        modelPart2.pitch = (rightArmed ? otherP : -otherP) /*+ (0.5F * head.yaw)*/;
-        modelPart2.yaw = (rightArmed ? otherY : -otherY);
-        modelPart2.roll = (rightArmed ? otherR : -otherR);
+        modelPart2.pitch = (rightArmed ? otherP : -holdingP); /*+ (0.5F * head.yaw)*/
+        modelPart2.yaw = (rightArmed ? otherY : holdingY);
+        modelPart2.roll = (rightArmed ? otherR : holdingR);
 
     }
 
@@ -74,5 +64,9 @@ public class EchoScythePosing {
         float h = g / f;
         modelPart2.yaw = MathHelper.lerp(h, 0.4F, 0.85F) * (float)(rightArmed ? 1 : -1);
         modelPart2.pitch = MathHelper.lerp(h, modelPart2.pitch, (float) (-Math.PI / 2));
+    }
+
+    public static void swing() {
+
     }
 }

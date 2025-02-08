@@ -43,30 +43,27 @@ public abstract class MoonArmoryWeaponMixin<T extends LivingEntity> {
     private void positionWeaponRight(T entity, CallbackInfo ci) {
         // Check if player is holding an Echo Scythe
         ItemStack mainHandStack = entity.getStackInHand(Hand.MAIN_HAND);
+        ItemStack offHandStack = entity.getStackInHand(Hand.OFF_HAND);
         if (mainHandStack.isOf(MoonArmoryItems.ECHO_SCYTHE)) {
-//            float k = 1.0F;
-//            if (entity.getRoll() > 4) {
-//                k = (float)entity.getVelocity().lengthSquared();
-//                k /= 0.2F;
-//                k *= k * k;
-//            }
-//
-//            if (k < 1.0F) {
-//                k = 1.0F;
-//            }
-
+            EchoScythePosing.hold(this.rightArm, this.leftArm, this.head, this.body, true);
+            ci.cancel();
+        } else if (offHandStack.isOf(MoonArmoryItems.ECHO_SCYTHE)) {
+            EchoScythePosing.hold(this.rightArm, this.leftArm, this.head, this.body, false);
+            ci.cancel();
+        }
+    }
+    @Inject(method = "positionLeftArm", at = @At("HEAD"), cancellable = true)
+    private void positionWeaponLeft(T entity, CallbackInfo ci) {
+        // Check if player is holding an Echo Scythe
+        ItemStack mainHandStack = entity.getStackInHand(Hand.MAIN_HAND);
+        ItemStack offHandStack = entity.getStackInHand(Hand.OFF_HAND);
+        if (mainHandStack.isOf(MoonArmoryItems.ECHO_SCYTHE)) {
+            EchoScythePosing.hold(this.rightArm, this.leftArm, this.head, this.body, false);
+            ci.cancel();
+        } else if (offHandStack.isOf(MoonArmoryItems.ECHO_SCYTHE)) {
             EchoScythePosing.hold(this.rightArm, this.leftArm, this.head, this.body, true);
             ci.cancel();
         }
     }
-//    @Inject(method = "positionLeftArm", at = @At("HEAD"), cancellable = true)
-//    private void positionWeaponLeft(T entity, CallbackInfo ci) {
-//        // Check if player is holding an Echo Scythe
-//        ItemStack mainHandStack = entity.getStackInHand(Hand.MAIN_HAND);
-//        if (mainHandStack.isOf(MoonArmoryItems.ECHO_SCYTHE)) {
-//            EchoScythePosing.hold(this.rightArm, this.leftArm, this.head, this.body, false);
-//            ci.cancel();
-//        }
-//    }
 
 }
